@@ -47,9 +47,13 @@ file = st.file_uploader(":file_folder: Upload your file", type=(["csv", "xlsx", 
 if file is not None:
     df = pd.read_csv(file, encoding="ISO-8859-1")
 else:
-    # Set default path to Indian dataset
-    os.chdir(r"C:/Users/manis/OneDrive/Desktop/Streamlit_Project")
-    df = pd.read_csv("Superstore.csv", encoding="ISO-8859-1")  # Make sure your dataset has Indian states/cities
+    # Use a relative path for default dataset in case it's included with the app
+    default_path = "Superstore.csv"
+    if os.path.exists(default_path):
+        df = pd.read_csv(default_path, encoding="ISO-8859-1")
+    else:
+        st.error("Default dataset not found. Please upload a file.")
+        st.stop()
 
 # Convert 'Order Date' column to datetime
 df['Order Date'] = pd.to_datetime(df['Order Date'])
@@ -157,6 +161,7 @@ elif page == "About":
     st.write("**Institution**: VIT Vellore")
     st.write("**Program**: M.Tech in AI & ML")
     st.write("**Registration Number**: 24MAI0113")
+
 
 elif page == "Contact":
     st.subheader("Contact Information")
