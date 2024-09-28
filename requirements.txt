@@ -1,8 +1,7 @@
-# required library - 
+# required library  
 streamlit
 pandas
 plotly
----------------------
 
 
 altair==5.4.1
